@@ -14,6 +14,7 @@
             </div>
         </div>
         <Room />
+        <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
     </div>
 
 </template>
@@ -28,7 +29,12 @@ export default {
   },
   data: function() {
     return {
-      ipAddress: ''
+      ipAddress: '',
+      src: "http://localhost:8083/dist/index.html",
+      frameStyle:{
+                width:'85%',
+                height:'100vh',
+            },
     };
   },
   created() {
