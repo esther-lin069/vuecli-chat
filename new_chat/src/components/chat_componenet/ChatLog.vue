@@ -227,7 +227,8 @@ function isUrl(v) {
 
 #func-block {
   width: 100%;
-  height: 25vhpx;
+  height: 25vh;
+  padding-left: 0.5em;
   position: relative;
   z-index: 10;
 }
