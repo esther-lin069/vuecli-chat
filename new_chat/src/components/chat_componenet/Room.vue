@@ -136,7 +136,7 @@ export default {
   },
   mounted () {
     this.axios
-      .get(global.API + '/roomlist' + location.search)
+      .get(global.API + '/fakelist')
       .then(function (e) {
         let list = e.data.rooms.split(',')
         for (let i = 0; i < list.length; i++) {
