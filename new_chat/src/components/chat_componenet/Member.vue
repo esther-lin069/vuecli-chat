@@ -48,6 +48,7 @@
 <script>
 import global from '../gloval_var'
 
+
 export default {
   name: 'Member',
   data: function () {
@@ -67,3 +68,12 @@ export default {
 }
 
 </script>
+<style>
+#member {
+    overflow: auto;
+    background-color:#007a8f;
+    border-radius: .3em;
+    height: 25vh;
+    width: 30%;
+}
+</style>

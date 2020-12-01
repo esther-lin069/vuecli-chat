@@ -1,7 +1,7 @@
 import Vue from 'vue'
 // import App from './App.vue'
-// import ChatWindow from './components/ChatWindow.vue'
-import BaseList from './components/BaseList.vue'
+import ChatWindow from './components/ChatWindow.vue'
+// import BaseList from './components/BaseList.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -23,5 +23,5 @@ Vue.config.productionTip = false
 // }).$mount('#app')
 
 new Vue({
-  render: h => h(BaseList)
+  render: h => h(ChatWindow)
 }).$mount('#app')
