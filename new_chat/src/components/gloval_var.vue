@@ -12,7 +12,8 @@ var CONN
 
 //取得聊天室ＩＤ	
 var url = new URL(location.href)
-CHATROOM = location.pathname.replace("/chat/", "")
+// CHATROOM = location.pathname.replace("/chat/", "")
+CHATROOM = 'main'
 
 //取得使用者ＩＤ
 USER = url.searchParams.get('user')

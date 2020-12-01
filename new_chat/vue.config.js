@@ -1,6 +1,6 @@
 module.exports = {
     assetsDir: 'assets/',
-    // publicPath: '/chat/',
+    publicPath: '/chat/',
     devServer: {
       proxy: {
         '/api':{
