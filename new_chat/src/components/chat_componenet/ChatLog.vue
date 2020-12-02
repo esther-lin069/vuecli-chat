@@ -21,7 +21,7 @@ window.onload = function(){
 
   // WS連線：接收廣播訊息
   if (window['WebSocket']) {
-    global.CONN = new WebSocket('ws://' + window.location.host +"/ws"+ location.pathname + location.search)
+    global.CONN = new WebSocket('ws://' + window.location.host +"/ws/chat/main"+ location.search)
     global.CONN.onclose = function () {
       var item = document.createElement('div')
       item.innerHTML = '<b>Connection closed.</b>'
