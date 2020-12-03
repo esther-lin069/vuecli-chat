@@ -1,7 +1,9 @@
 <template>
     <div class="container">
-        <button @click="WindowMode(windowlize)">
-            {{ text }}
+        <button class="w-btn" @click="WindowMode(windowlize)">
+            <span>
+                <i :class="[istyle.i, !windowlize ? istyle.open:istyle.recover]"></i>
+            </span>
         </button>
         <div :style="frameStyle" v-show="!windowlize">
             <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
@@ -20,7 +22,11 @@ export default {
                 width:'100%',
                 height:'100%',
             },
-            text: '視窗化',
+            istyle: {
+                i: 'fas',
+                open: 'fa-external-link-alt',
+                recover: 'fa-window-maximize'
+            },
             chat_window: null,
             windowlize: false,
         }
@@ -47,9 +53,20 @@ body{
 }
 .container{
     margin: 0 auto;
-    padding: 2em;
     width: 25%;
     height: 25em;
     background-color: rgb(42, 117, 120);
+    position: relative;
+}
+.w-btn{
+    background-color: rgba(0, 0, 0, 0.646);
+    border: 0;
+    border-radius: 0 0 0 .3em ;
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: white;
 }
 </style>
