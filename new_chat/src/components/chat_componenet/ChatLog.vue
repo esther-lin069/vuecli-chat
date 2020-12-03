@@ -1,6 +1,36 @@
 <template>
   <div id="chat">
     <div id="log">
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="md-text">這是一則測試</label>
+        </label>
+      </div></div>
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="bro-text">這是一則測試</label>
+        </label>
+      </div></div>
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="md-text">這是一則測試</label>
+        </label>
+      </div></div>
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="md-text">這是一則測試</label>
+        </label>
+      </div></div>
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="md-text">這是一則測試</label>
+        </label>
+      </div></div>
     </div>
     <div id="form">
       <form v-on:submit.prevent="sendMsg" class="form-inline">
@@ -57,6 +87,7 @@ export default {
 /* ws */
 window.onload = function () {
   var log = document.getElementById("log");
+  log.scrollTop = log.scrollHeight
 
   // WS連線：接收廣播訊息
   if (window["WebSocket"]) {
