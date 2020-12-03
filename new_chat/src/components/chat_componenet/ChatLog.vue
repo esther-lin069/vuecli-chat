@@ -10,12 +10,6 @@
       <div><div class="chat-text">
         <label class="sm-text">
           <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
-          <label class="bro-text">這是一則測試</label>
-        </label>
-      </div></div>
-      <div><div class="chat-text">
-        <label class="sm-text">
-          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
           <label class="md-text">這是一則測試</label>
         </label>
       </div></div>
@@ -31,6 +25,13 @@
           <label class="md-text">這是一則測試</label>
         </label>
       </div></div>
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="md-text">這是一則測試</label>
+        </label>
+      </div></div>
+      
     </div>
     <div id="form">
       <form v-on:submit.prevent="sendMsg" class="form-inline">

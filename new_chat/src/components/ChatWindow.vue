@@ -1,17 +1,25 @@
 <template>
-    <div class="container">
-        <button class="w-btn" @click="WindowMode(windowlize)">
-            <span>
-                <i :class="[istyle.i, !windowlize ? istyle.open:istyle.recover]"></i>
-            </span>
-        </button>
-        <div :style="frameStyle" v-show="!windowlize">
-            <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
+    <div>
+        <div class="sm-div">
+            <button class="w-btn" @click="WindowMode(windowlize)">
+                <span>
+                    <i :class="[istyle.i, !windowlize ? istyle.open:istyle.recover]"></i>
+                </span>
+            </button>
+            <h5 v-show="windowlize" style="color:white">再點一次按鈕我就回來囉！</h5>
+            <div :style="frameStyle" v-show="!windowlize">
+                <chat-log />
+                <!-- <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe> -->
+            </div>
+        </div>
+        
+        <div class="md-div">
+            <chat-log />
         </div>
     </div>
 </template>
 <script>
-
+import ChatLog from './chat_componenet/ChatLog'
 
 export default {
     name: 'ChatWindow',
@@ -30,6 +38,9 @@ export default {
             chat_window: null,
             windowlize: false,
         }
+    },
+    components: {
+        ChatLog
     },
     methods: {
         WindowMode(b){
@@ -51,9 +62,9 @@ export default {
 body{
     background-color: cadetblue;
 }
-.container{
+.sm-div{
     margin: 0 auto;
-    width: 25%;
+    width: 325px;
     height: 25em;
     background-color: rgb(42, 117, 120);
     position: relative;
@@ -68,5 +79,9 @@ body{
     right: 0;
     top: 0;
     color: white;
+}
+.md-div{
+    width: 600px;
+    height: 500px;
 }
 </style>
