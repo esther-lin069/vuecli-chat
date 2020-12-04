@@ -37,6 +37,9 @@ export default {
       type: "N",
     };
   },
+  props: {
+    info: Object
+  },
   methods: {
     sendMsg: function () {
       var content = this.msg.replaceAll("'", "&#39;");
@@ -61,6 +64,12 @@ export default {
       this.msg = "";
     },
   },
+  watch: {
+    info: function(newVal, oldVal){
+      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+      
+    }
+  }
 };
 /* ws */
 window.onload = function () {
@@ -70,7 +79,7 @@ window.onload = function () {
   // WS連線：接收廣播訊息
   if (window["WebSocket"]) {
     global.CONN = new WebSocket(
-      "ws://" + window.location.host + "/ws/chat/main?user=123&private=false"
+      "ws://" + window.location.host + "/ws/chat/main" +"?user=123&private=false"
     );
     global.CONN.onclose = function () {
       var item = document.createElement("div");

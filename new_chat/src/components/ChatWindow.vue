@@ -8,8 +8,8 @@
             </button>
             <h5 v-show="windowlize" style="color:white">再點一次按鈕我就回來囉！</h5>
             <div :style="frameStyle" v-show="!windowlize">
-                <chat-log />
-                <hr>
+                <!-- <chat-log :info="info" /> -->
+                <!-- <hr> -->
                 <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
             </div>
         </div>
@@ -36,7 +36,7 @@ export default {
     name: 'ChatWindow',
     data() {
         return {
-            src: "http://localhost:8083/chat_window/chat_index.html",
+            src: "http://localhost:8083/dist/index.html",
             frameStyle:{
                 width:'100%',
                 height:'100%',
@@ -68,6 +68,7 @@ export default {
                     name: 'Room4'
                 },
             ],
+            // info: {id:'test'},
         }
     },
     components: {
@@ -80,7 +81,7 @@ export default {
         WindowMode(b){
             if(b === false){
                 this.text = '回復'
-                this.chat_window = window.open('http://localhost:8083/chat_window/chat_index.html','','width=600,height=600')
+                this.chat_window = window.open('http://localhost:8083/dist/index.html','','width=600,height=600')
                 this.chat_window.moveTo(500,100)
             }
             else{
@@ -97,6 +98,10 @@ export default {
                     user: '123'
                 }
             }, '*')
+            // this.info = {
+            //     id: id,
+            //     user: '123'
+            // }
         },
     },
 }
