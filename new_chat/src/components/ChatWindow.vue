@@ -9,12 +9,23 @@
             <h5 v-show="windowlize" style="color:white">再點一次按鈕我就回來囉！</h5>
             <div :style="frameStyle" v-show="!windowlize">
                 <chat-log />
-                <!-- <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe> -->
+                <hr>
+                <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
             </div>
         </div>
         
-        <div class="md-div">
+        <div class="md-div" v-if="show">
             <chat-log />
+        </div>
+
+        <div class="md-div">
+            <dl>
+                <dt 
+                v-for="(room, index) in rooms"
+                :key="index">
+                    <button @click="SendInfo(room.id)">{{ room.name }}</button>
+                </dt> 
+            </dl>
         </div>
     </div>
 </template>
@@ -35,12 +46,35 @@ export default {
                 open: 'fa-external-link-alt',
                 recover: 'fa-window-maximize'
             },
+            iframe: null,
             chat_window: null,
             windowlize: false,
+            show: false,
+            rooms: [
+                {
+                    id: 1,
+                    name: 'Room1'
+                },
+                {
+                    id: 2,
+                    name: 'Room2'
+                },
+                {
+                    id: 3,
+                    name: 'Room3'
+                },
+                {
+                    id: 4,
+                    name: 'Room4'
+                },
+            ],
         }
     },
     components: {
         ChatLog
+    },
+    mounted() {
+        this.iframe = this.$refs.iframe.contentWindow
     },
     methods: {
         WindowMode(b){
@@ -54,7 +88,16 @@ export default {
                 this.chat_window.close()
             }
             this.windowlize = !b            
-        }
+        },
+        SendInfo(id){
+            this.iframe.postMessage({
+                cmd: 'refresh',
+                params: {
+                    id: id,
+                    user: '123'
+                }
+            }, '*')
+        },
     },
 }
 </script>

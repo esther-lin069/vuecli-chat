@@ -1,5 +1,5 @@
 module.exports = {
-    assetsDir: 'assets/',
+    assetsDir: 'chat_assets/',
     // publicPath: '/chat/',
     devServer: {
       proxy: {
