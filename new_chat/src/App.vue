@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <chat-log :info="info" />
-    <span>Room:{{ info.id }}/User:{{ info.user }}</span>
+    <span>Room:{{ info.id }}/User:{{ info.user }}/{{ test }}</span>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       info: {id: 'wtf'},
-      test: ''
+      test: location.search
     }
   },
   created() {

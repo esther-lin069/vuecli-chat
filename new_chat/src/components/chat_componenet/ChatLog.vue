@@ -35,6 +35,7 @@ export default {
     return {
       msg: "",
       type: "N",
+      conn: null,
     };
   },
   props: {
@@ -43,7 +44,7 @@ export default {
   methods: {
     sendMsg: function () {
       var content = this.msg.replaceAll("'", "&#39;");
-      if (!global.CONN) {
+      if (!this.conn) {
         return false;
       }
       if (this.msg === "") {
@@ -60,43 +61,69 @@ export default {
         content: content,
         time: Date.now(),
       });
-      global.CONN.send(jstr);
+      this.conn.send(jstr);
       this.msg = "";
     },
   },
   watch: {
     info: function(newVal, oldVal){
       console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+      if(newVal !== undefined && newVal.id !== oldVal.id){
+        if (window["WebSocket"]) {
+          global.CHATROOM = newVal.id
+          this.conn = new WebSocket(
+            "ws://" + window.location.host + "/ws/chat/"+ newVal.id +"?user="+ newVal.user  +"&private=false"
+          );
+          this.conn.onclose = function () {
+            var item = document.createElement("div");
+            item.innerHTML = "<b>Connection closed.</b>";
+            appendLog(item);
+          };
+          this.conn.onmessage = function (evt) {
+            var messages = evt.data.split("\n");
+            for (var i = 0; i < messages.length; i++) {
+              HandleMessage(messages[i]);
+            }
+          };
+        } else {
+          var item = document.createElement("div");
+          item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+          appendLog(item);
+        }
+      }
       
     }
   }
 };
+
+var log = document.getElementById("log");
 /* ws */
-window.onload = function () {
-  var log = document.getElementById("log");
-  log.scrollTop = log.scrollHeight
+  window.onload = function(){    
+    log.scrollTop = log.scrollHeight
+  }
+  
 
   // WS連線：接收廣播訊息
-  if (window["WebSocket"]) {
-    global.CONN = new WebSocket(
-      "ws://" + window.location.host + "/ws/chat/main" +"?user=123&private=false"
-    );
-    global.CONN.onclose = function () {
-      var item = document.createElement("div");
-      item.innerHTML = "<b>Connection closed.</b>";
-      appendLog(item);
-    };
-    global.CONN.onmessage = function (evt) {
-      var messages = evt.data.split("\n");
-      for (var i = 0; i < messages.length; i++) {
-        HandleMessage(messages[i]);
-      }
-    };
-  } else {
-    var item = document.createElement("div");
-    item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
-    appendLog(item);
-  }
+  // if (window["WebSocket"]) {
+  //   global.CONN = new WebSocket(
+  //     "ws://" + window.location.host + "/ws/chat/main" +"?user=123&private=false"
+  //   );
+  //   global.CONN.onclose = function () {
+  //     var item = document.createElement("div");
+  //     item.innerHTML = "<b>Connection closed.</b>";
+  //     appendLog(item);
+  //   };
+  //   global.CONN.onmessage = function (evt) {
+  //     var messages = evt.data.split("\n");
+  //     for (var i = 0; i < messages.length; i++) {
+  //       HandleMessage(messages[i]);
+  //     }
+  //   };
+  // } else {
+  //   var item = document.createElement("div");
+  //   item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+  //   appendLog(item);
+  // }
 
   // 處理訊息
   function HandleMessage(message) {
@@ -110,9 +137,9 @@ window.onload = function () {
         var info = JSON.parse(chat.content);
         global.ONLINE = []; // 清空原來的在線人員列表
 
-        if (global.CHATROOM !== info.room_info) {
-          alert("聊天室位置出錯!" + global.CHATROOM + info.room_info);
-        }
+        // if (global.CHATROOM !== info.room_info) {
+        //   alert("聊天室位置出錯!" + global.CHATROOM + info.room_info);
+        // }
 
         // 在線列表
         var members = info.user_info.split(",");
@@ -124,29 +151,13 @@ window.onload = function () {
           let tmp = { username: members[i] };
           global.ONLINE.push(tmp);
         }
-      } else {
-        info = JSON.parse(chat.content);
-        var rooms = JSON.parse(info.room_info); // 聊天室名單對應人數
-        var users = info.user_info.split(","); // 聊天室所有在線人員
+      } 
+      // else {
+      //   info = JSON.parse(chat.content);
+      //   var rooms = JSON.parse(info.room_info); // 聊天室名單對應人數
+      //   var users = info.user_info.split(","); // 聊天室所有在線人員
 
-        /* 上線狀態變更 */
-        for (var member of global.MEMBERS) {
-          if (users.includes(member.username)) {
-            member.online = true;
-          } else {
-            member.online = false;
-          }
-        }
-
-        /* 聊天室人數變更 */
-        let roomlist_states = Object.keys(rooms);
-
-        for (global.ROOM of global.ROOMS) {
-          if (roomlist_states.includes(global.ROOM.room_id)) {
-            global.ROOM.len = rooms[global.ROOM.room_id];
-          }
-        }
-      }
+      // }
       // 系統訊息ex.ＸＸＸ離開聊天室
       item.innerHTML =
         `<div class="system-text"><label>` + info.text + `</label></div>`;
@@ -199,7 +210,7 @@ window.onload = function () {
       log.scrollTop = log.scrollHeight - log.clientHeight;
     }
   }
-};
+
 // 判斷是否為超連結
 function isUrl(v) {
   var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|#|-)+)/g;

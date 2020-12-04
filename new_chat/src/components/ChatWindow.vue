@@ -68,7 +68,10 @@ export default {
                     name: 'Room4'
                 },
             ],
-            // info: {id:'test'},
+            info: {
+                id: 'test',
+                user: '123'
+            },
         }
     },
     components: {
@@ -81,8 +84,9 @@ export default {
         WindowMode(b){
             if(b === false){
                 this.text = '回復'
-                this.chat_window = window.open('http://localhost:8083/dist/index.html','','width=600,height=600')
+                this.chat_window = window.open(this.src,'','width=600,height=600')
                 this.chat_window.moveTo(500,100)
+                this.SendInfo(this.info.id)
             }
             else{
                 this.text = '視窗化'
@@ -91,13 +95,28 @@ export default {
             this.windowlize = !b            
         },
         SendInfo(id){
-            this.iframe.postMessage({
-                cmd: 'refresh',
-                params: {
-                    id: id,
-                    user: '123'
-                }
-            }, '*')
+            this.info.id = id
+            console.log(this.info.id)
+            if(this.windowlize){
+                this.chat_window.postMessage({
+                    cmd: 'refresh',
+                    params: {
+                        id: id,
+                        user: '123'
+                    }
+                }, '*')
+            }
+            else{
+                this.iframe.postMessage({
+                    cmd: 'refresh',
+                    params: {
+                        id: id,
+                        user: '123'
+                    }
+                }, '*')
+            }
+            
+
             // this.info = {
             //     id: id,
             //     user: '123'
