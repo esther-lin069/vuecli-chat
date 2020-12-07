@@ -10,6 +10,7 @@
             <div :style="frameStyle" v-show="!windowlize">
                 <hr>
                 <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
+                <input v-model="src">
             </div>
         </div>
 

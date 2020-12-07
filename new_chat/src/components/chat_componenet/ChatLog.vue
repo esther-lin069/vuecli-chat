@@ -56,14 +56,17 @@ export default {
     },
   },
   mounted() {
-
+    // 取得聊天室資訊
     var url = new URL(location.href)
     global.CHATROOM = location.pathname.replace("/dist/", "")
     global.USER = url.searchParams.get('user')
-    this.log = document.getElementById("log")
-
     console.log(global.CHATROOM +":"+global.USER)
 
+    // 捲動至底端
+    this.log = document.getElementById("log")
+    this.log.scrollTop = this.log.scrollHeight
+
+    // ws連線
     if (window["WebSocket"]) {
       global.CONN = new WebSocket(
         "ws://" + window.location.host + "/ws/chat/"+global.CHATROOM+"?user="+global.USER+"&private=false"
@@ -87,7 +90,7 @@ export default {
 
   },
 };
-/* ws */
+
   // 處理訊息
   function HandleMessage(message) {
     var item = document.createElement("div");
