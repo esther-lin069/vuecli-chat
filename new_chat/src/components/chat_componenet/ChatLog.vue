@@ -1,6 +1,7 @@
 <template>
   <div id="chat">
-    <div id="log">
+    <div id="log" ref="log">
+      log
     </div>
     <div id="form">
       <form v-on:submit.prevent="sendMsg" class="form-inline">
@@ -27,6 +28,7 @@ export default {
     return {
       msg: "",
       type: "N",
+      log: null,
     };
   },
   methods: {
@@ -53,33 +55,39 @@ export default {
       this.msg = "";
     },
   },
+  mounted() {
+
+    var url = new URL(location.href)
+    global.CHATROOM = location.pathname.replace("/dist/", "")
+    global.USER = url.searchParams.get('user')
+    this.log = document.getElementById("log")
+
+    console.log(global.CHATROOM +":"+global.USER)
+
+    if (window["WebSocket"]) {
+      global.CONN = new WebSocket(
+        "ws://" + window.location.host + "/ws/chat/"+global.CHATROOM+"?user="+global.USER+"&private=false"
+      );
+      global.CONN.onclose = function() {
+        var item = document.createElement("div");
+        item.innerHTML = "<b>Connection closed.</b>";
+        appendLog(item);
+      };
+      global.CONN.onmessage = function (evt) {
+        var messages = evt.data.split("\n");
+        for (var i = 0; i < messages.length; i++) {
+          HandleMessage(messages[i]);
+        }
+      };
+    } else {
+      var item = document.createElement("div");
+      item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+      appendLog(item);
+    }
+
+  },
 };
 /* ws */
-window.onload = function () {
-  var log = document.getElementById("log");
-
-  // WS連線：接收廣播訊息
-  if (window["WebSocket"]) {
-    global.CONN = new WebSocket(
-      "ws://" + window.location.host + "/ws/chat/main?user=123&private=false"
-    );
-    global.CONN.onclose = function () {
-      var item = document.createElement("div");
-      item.innerHTML = "<b>Connection closed.</b>";
-      appendLog(item);
-    };
-    global.CONN.onmessage = function (evt) {
-      var messages = evt.data.split("\n");
-      for (var i = 0; i < messages.length; i++) {
-        HandleMessage(messages[i]);
-      }
-    };
-  } else {
-    var item = document.createElement("div");
-    item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
-    appendLog(item);
-  }
-
   // 處理訊息
   function HandleMessage(message) {
     var item = document.createElement("div");
@@ -173,15 +181,17 @@ window.onload = function () {
   }
 
   //將聊天訊息放入聊天區塊
+
   function appendLog(item) {
-    var doScroll = log.scrollTop > log.scrollHeight - log.clientHeight - 1;
+    var log = document.getElementById("log");
+    let doScroll = log.scrollTop > log.scrollHeight - log.clientHeight - 1;
     log.appendChild(item);
 
     if (doScroll) {
       log.scrollTop = log.scrollHeight - log.clientHeight;
     }
   }
-};
+
 // 判斷是否為超連結
 function isUrl(v) {
   var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|#|-)+)/g;
