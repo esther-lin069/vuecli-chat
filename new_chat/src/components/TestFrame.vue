@@ -6,9 +6,8 @@
                     <i :class="[istyle.i, !windowlize ? istyle.open:istyle.recover]"></i>
                 </span>
             </button>
-            <h5 v-show="windowlize" style="color:white">再點一次按鈕我就回來囉！</h5>
+            <!-- <h5 v-show="windowlize" style="color:white">再點一次按鈕我就回來囉！</h5> -->
             <div :style="frameStyle" v-show="!windowlize">
-                <hr>
                 <iframe :src="src" :style="frameStyle" frameborder="0" ref="iframe" ></iframe>
                 <input v-model="src">
             </div>

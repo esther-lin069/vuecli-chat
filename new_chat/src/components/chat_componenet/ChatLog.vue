@@ -62,10 +62,6 @@ export default {
     global.USER = url.searchParams.get('user')
     console.log(global.CHATROOM +":"+global.USER)
 
-    // 捲動至底端
-    this.log = document.getElementById("log")
-    this.log.scrollTop = this.log.scrollHeight
-
     // ws連線
     if (window["WebSocket"]) {
       global.CONN = new WebSocket(
@@ -87,6 +83,10 @@ export default {
       item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
       appendLog(item);
     }
+
+    // 捲動至底端
+    this.log = document.getElementById("log")
+    this.log.scrollTop = this.log.scrollHeight
 
   },
 };
