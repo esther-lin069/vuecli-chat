@@ -69,7 +69,7 @@ export default {
                 },
             ],
             info: {
-                id: 'test',
+                id: null,
                 user: '123'
             },
         }
@@ -86,23 +86,24 @@ export default {
                 this.text = '回復'
                 this.chat_window = window.open(this.src,'','width=600,height=600')
                 this.chat_window.moveTo(500,100)
-                this.SendInfo(this.info.id)
             }
             else{
                 this.text = '視窗化'
                 this.chat_window.close()
             }
-            this.windowlize = !b            
+            this.windowlize = !b
+            this.SendInfo(this.info.id)            
         },
         SendInfo(id){
             this.info.id = id
-            console.log(this.info.id)
+            
             if(this.windowlize){
+                console.log(id)
                 this.chat_window.postMessage({
                     cmd: 'refresh',
                     params: {
                         id: id,
-                        user: '123'
+                        user: '456'
                     }
                 }, '*')
             }

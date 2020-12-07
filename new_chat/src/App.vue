@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      info: {id: 'wtf'},
+      info: {},
       test: location.search
     }
   },
