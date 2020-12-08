@@ -73,9 +73,6 @@ export default {
             this.is_private = "<p style='font-size:12pt; color:#00798F'>私聊</p>"
             this.title = this.title.replace(global.USER, '').replace('-', '')
 
-            // 直接顯示所有使用者而非在線列表
-            // member_compo.$data.seen = false
-
             // 取出收話人
             let members = global.CHATROOM.split("-")
             if (members[0] == global.USER) {

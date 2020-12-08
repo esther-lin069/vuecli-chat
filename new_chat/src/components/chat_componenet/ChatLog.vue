@@ -1,7 +1,12 @@
 <template>
   <div id="chat">
     <div id="log" ref="log">
-      log
+      <div><div class="chat-text">
+        <label class="sm-text">
+          <span class="b-text">123</span> -2020/12/2 下午6:27:46<br>
+          <label class="md-text">這是一則測試</label>
+        </label>
+      </div></div>
     </div>
     <div id="form">
       <form v-on:submit.prevent="sendMsg" class="form-inline">
@@ -58,7 +63,7 @@ export default {
   mounted() {
     // 取得聊天室資訊
     var url = new URL(location.href)
-    global.CHATROOM = location.pathname.replace("/dist/", "")
+    global.CHATROOM = location.pathname.replace("/dist/", "").replace("/chat/", "")
     global.USER = url.searchParams.get('user')
     console.log(global.CHATROOM +":"+global.USER)
 
@@ -205,5 +210,5 @@ function isUrl(v) {
 }
 </script>
 <style>
-@import "../../assets/css/chat_window.css";
+/* @import "../../assets/css/chat_window.css"; */
 </style>

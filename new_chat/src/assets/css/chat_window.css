@@ -3,8 +3,8 @@ body{
 }
 #chat{
     background-color: cadetblue;
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 20vh;
     display: flex;
     flex-direction: column;
 }
@@ -13,6 +13,7 @@ body{
     overflow: auto;
     background-color: rgb(232, 232, 232);
     flex-grow: 1;
+    min-height: 25em;
     padding-left: 0.5em;
 }
 
